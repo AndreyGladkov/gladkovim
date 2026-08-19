@@ -14,6 +14,7 @@ return {
 				{ "<leader>c", group = "code", icon = "💻" },
 				{ "<leader>d", group = "diagnostics", icon = "🩺" },
 				{ "<leader>b", group = "buffer", icon = "📄" },
+				{ "<leader>u", group = "plantuml", icon = "📊" },
 			},
 		},
 		keys = {

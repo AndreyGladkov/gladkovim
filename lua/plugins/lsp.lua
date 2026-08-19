@@ -153,6 +153,7 @@ return {
 							"scss",
 							"json",
 							"jsonc",
+												"markdown",
 						},
 					}),
 					null_ls.builtins.diagnostics.stylelint,

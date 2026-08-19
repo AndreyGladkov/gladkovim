@@ -176,7 +176,7 @@ return {
       providers = {
         ollama = {
           endpoint = "http://127.0.0.1:11434",
-          model = "qwen3:30b-a3b-q4_K_M",
+          model = "qwen3.8:27b",
         },
         deepseek = {
           __inherited_from = "openai",
