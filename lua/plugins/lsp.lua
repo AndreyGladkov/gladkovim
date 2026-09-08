@@ -8,7 +8,21 @@ return {
 		"mason-org/mason-lspconfig.nvim",
 		dependencies = { "mason.nvim" },
 		opts = {
-			ensure_installed = { "ts_ls", "eslint", "cssls", "basedpyright", "ruff", "emmet_language_server", "sqlls", "jdtls" },
+			ensure_installed = {
+				"vtsls",
+				"eslint",
+				"cssls",
+				"basedpyright",
+				"ruff",
+				"emmet_language_server",
+				"sqlls",
+				"jdtls",
+			},
+			-- mason-lspconfig enables *every* installed server. ts_ls (the
+			-- typescript-language-server package) would then attach alongside
+			-- vtsls and duplicate every completion and diagnostic on TS files.
+			-- Run `:MasonUninstall typescript-language-server` to reclaim the disk.
+			automatic_enable = { exclude = { "ts_ls" } },
 		},
 	},
 	{
@@ -49,45 +63,31 @@ return {
 			-- TS/JS
 			vim.lsp.config("vtsls", {
 				capabilities = capabilities,
-                filetypes = {
-                  "javascript",
-                  "javascriptreact",
-                  "typescript",
-                  "typescriptreact",
-                },
-                settings = {
-                  vtsls = {
-                      autoUseWorkspaceTsdk = true,
-                      tsconfigModifier = {
-                        compilerOptions = {
-                            allowJs = true,
-                            checkJs = true,
-                            jsx = "react", 
-                        },
-                    }
-                  },
-                  javascript = {
-                      suggest = {
-                          completeFunctionCalls = true,
-                      },
-                  },
-                },
+				filetypes = {
+					"javascript",
+					"javascriptreact",
+					"typescript",
+					"typescriptreact",
+				},
+				settings = {
+					vtsls = {
+						autoUseWorkspaceTsdk = true,
+						tsconfigModifier = {
+							compilerOptions = {
+								allowJs = true,
+								checkJs = true,
+								jsx = "react",
+							},
+						},
+					},
+					javascript = {
+						suggest = {
+							completeFunctionCalls = true,
+						},
+					},
+				},
 			})
-
-            -- vim.api.nvim_create_autocmd({ "FileType" }, {
-            --     pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-            --     callback = function(args)
-            --         -- Ищем корень проекта по характерным файлам
-            --         local root_dir = vim.fs.root(args.buf, { "tsconfig.json", "package.json", ".git" })
-            --         
-            --         -- Принудительно запускаем и прикрепляем vtsls к текущему файлу
-            --         vim.lsp.start({
-            --             name = "vtsls",
-            --             cmd = { "vtsls", "--stdio" }, -- Убедитесь, что бинарник vtsls доступен в PATH
-            --             root_dir = root_dir,
-            --         }, { bufnr = args.buf })
-            --     end,
-            -- })
+			vim.lsp.enable("vtsls")
 
 			-- Emmet (HTML/JSX abbreviations)
 			vim.lsp.config("emmet_language_server", {
@@ -96,7 +96,7 @@ return {
 			})
 			vim.lsp.enable("emmet_language_server")
 
-			-- Python (навигация, автокомплит; типы через mypy в none-ls)
+			-- Python (навигация, автокомплит; типы через mypy в nvim-lint)
 			vim.lsp.config("basedpyright", {
 				capabilities = capabilities,
 				settings = {
@@ -153,7 +153,7 @@ return {
 							"scss",
 							"json",
 							"jsonc",
-												"markdown",
+							"markdown",
 						},
 					}),
 					null_ls.builtins.diagnostics.stylelint,
