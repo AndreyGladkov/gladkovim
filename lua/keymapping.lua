@@ -40,7 +40,10 @@ keymap("n", "gD", function()
 	})
 end, { desc = "Go to Definition (all results)" })
 
+local lsp_group = vim.api.nvim_create_augroup("LspKeymaps", { clear = true })
+
 vim.api.nvim_create_autocmd("LspAttach", {
+	group = lsp_group,
 	callback = function(args)
 		local opts = { buffer = args.buf }
 		keymap("n", "gr", vim.lsp.buf.references, opts)
@@ -60,8 +63,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			})
 		end, vim.tbl_extend("force", opts, { desc = "Auto Fix" }))
 
-		-- Show diagnostics floating popup on hover
+		-- Show diagnostics floating popup on hover.
+		-- Grouped per buffer: several clients attach to the same buffer
+		-- (basedpyright + ruff, vtsls + eslint + null-ls), and without a group
+		-- each attach would stack another copy of this autocmd.
 		vim.api.nvim_create_autocmd("CursorHold", {
+			group = vim.api.nvim_create_augroup("LspHoverDiagnostics" .. args.buf, { clear = true }),
 			buffer = args.buf,
 			callback = function()
 				vim.diagnostic.open_float({ scope = "cursor", focus = false })
