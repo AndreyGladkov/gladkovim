@@ -1,10 +1,11 @@
 return {
 	{
-		"williamboman/mason.nvim",
+		"mason-org/mason.nvim",
+		lazy = false,
 		opts = {},
 	},
 	{
-		"williamboman/mason-lspconfig.nvim",
+		"mason-org/mason-lspconfig.nvim",
 		dependencies = { "mason.nvim" },
 		opts = {
 			ensure_installed = { "ts_ls", "eslint", "cssls", "basedpyright", "ruff", "emmet_language_server", "sqlls", "jdtls" },
