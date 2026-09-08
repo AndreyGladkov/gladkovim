@@ -1,3 +1,5 @@
+local util = require("util")
+
 local keymap = vim.keymap.set
 local silent = { silent = true }
 
@@ -124,20 +126,9 @@ end, { desc = "Toggle catppuccin+treesitter / alabaster" })
 
 -- Manual format via prettier (null-ls)
 keymap("n", "<leader>cf", function()
-	local bufnr = vim.api.nvim_get_current_buf()
-	local attached = vim.tbl_filter(function(client)
-		return client.name == "null-ls"
-	end, vim.lsp.get_clients({ bufnr = bufnr }))
-	if #attached == 0 then
+	if not util.format_with_client(vim.api.nvim_get_current_buf(), "null-ls", 5000) then
 		vim.notify("null-ls not attached yet", vim.log.levels.WARN)
-		return
 	end
-	vim.lsp.buf.format({
-		timeout_ms = 5000,
-		filter = function(client)
-			return client.name == "null-ls"
-		end,
-	})
 end, { desc = "Format (Prettier)" })
 
 -- Optional: Disable default space behavior in normal/visual mode to avoid conflicts
