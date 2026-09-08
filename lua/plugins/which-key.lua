@@ -15,6 +15,7 @@ return {
 				{ "<leader>d", group = "diagnostics", icon = "🩺" },
 				{ "<leader>b", group = "buffer", icon = "📄" },
 				{ "<leader>u", group = "plantuml", icon = "📊" },
+				{ "<leader>g", group = "git", icon = "🔀" },
 			},
 		},
 		keys = {

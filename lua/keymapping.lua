@@ -88,6 +88,12 @@ end, { desc = "File Diagnostics (Quickfix)" })
 keymap("n", "<Leader>gf", ":OpenInFGFile<CR>", { silent = true, noremap = true })
 keymap("v", "<Leader>gf", ":OpenInFGFileLines<CR>", { silent = true, noremap = true })
 
+-- Git diff (diffview.nvim)
+keymap("n", "<leader>gd", ":DiffviewOpen<CR>", { desc = "Git Diff" })
+keymap("n", "<leader>gh", ":DiffviewFileHistory<CR>", { desc = "Git File History" })
+keymap("n", "<leader>gH", ":DiffviewFileHistory %<CR>", { desc = "Git Current File History" })
+keymap("n", "<leader>gq", ":DiffviewClose<CR>", { desc = "Close Diffview" })
+
 -- Toggle catppuccin + treesitter / restore alabaster
 local _catppuccin_active = false
 keymap("n", "<leader>tt", function()
