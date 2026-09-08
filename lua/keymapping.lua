@@ -104,31 +104,8 @@ keymap("n", "<leader>gH", ":DiffviewFileHistory %<CR>", { desc = "Git Current Fi
 keymap("n", "<leader>gq", ":DiffviewClose<CR>", { desc = "Close Diffview" })
 
 -- Toggle catppuccin + treesitter / restore alabaster
-local _catppuccin_active = false
 keymap("n", "<leader>tt", function()
-	if not _catppuccin_active then
-		require("lazy").load({ plugins = { "catppuccin", "nvim-treesitter" } })
-		for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-			if vim.api.nvim_buf_is_loaded(buf) then
-				pcall(vim.treesitter.start, buf)
-			end
-		end
-		vim.cmd.colorscheme("catppuccin")
-		_catppuccin_active = true
-		vim.notify("catppuccin + treesitter enabled")
-	else
-		for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-			if vim.api.nvim_buf_is_loaded(buf) then
-				pcall(vim.treesitter.stop, buf)
-			end
-		end
-		vim.cmd.colorscheme("alabaster")
-		vim.opt.background = "light"
-		vim.api.nvim_set_hl(0, "Normal", { bg = "#FFFFFF" })
-		vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#000000", bg = "NONE" })
-		_catppuccin_active = false
-		vim.notify("alabaster restored")
-	end
+	require("theme").toggle()
 end, { desc = "Toggle catppuccin+treesitter / alabaster" })
 
 -- Manual format via prettier (null-ls)
@@ -140,5 +117,4 @@ end, { desc = "Format (Prettier)" })
 
 -- Optional: Disable default space behavior in normal/visual mode to avoid conflicts
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
-
 
