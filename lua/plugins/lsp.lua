@@ -117,8 +117,7 @@ return {
 			})
 			vim.lsp.enable("ruff")
 
-			-- SQL / CQL (Cassandra)
-			vim.filetype.add({ extension = { cql = "cql" } })
+			-- SQL / CQL (Cassandra). Extensions are registered in lua/filetypes.lua.
 			vim.lsp.config("sqlls", {
 				capabilities = capabilities,
 				filetypes = { "sql", "mysql", "cql" },

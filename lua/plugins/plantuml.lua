@@ -88,14 +88,9 @@ return {
 				desc = "Export PlantUML diagram to ASCII text",
 			})
 
-			-- Ensure filetype detection for PlantUML extensions
-			vim.filetype.add({
-				extension = {
-					puml = "plantuml",
-					iuml = "plantuml",
-					plantuml = "plantuml",
-				},
-			})
+			-- Filetype detection for .puml/.iuml lives in lua/filetypes.lua:
+			-- registering it here could never work, since this plugin only
+			-- loads once a buffer already has the plantuml filetype.
 
 			-- Keybindings (only for plantuml buffers)
 			vim.api.nvim_create_autocmd("FileType", {

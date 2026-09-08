@@ -1,4 +1,5 @@
 require("settings")
+require("filetypes")
 
 -- bootstrap lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
